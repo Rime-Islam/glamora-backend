@@ -12,3 +12,240 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  userId            String    @id @unique @default(uuid())
+  email             String    @unique
+  password          String
+  role              USER_ROLE @default(CUSTOMER)
+  isDeleted         Boolean   @default(false)
+  isBlocked         Boolean   @default(false)
+  verificationToken String?
+  isVerified        Boolean   @default(false)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  Admin             Admin?
+  customer          Customer?
+  vendor            Vendor?
+
+  @@map("user")
+}
+
+model Customer {
+  customerId String       @id @unique @default(uuid())
+  email      String       @unique
+  name       String       @db.VarChar(50)
+  userId     String       @unique
+  address    String
+  gender     USER_GENDER?
+  mobile     Int
+  image      String?  
+  orders     Order[]
+  user       User         @relation(fields: [userId], references: [userId])
+  followers  Follower[]
+
+  @@map("customer")
+  Review Review[]
+}
+
+model Vendor {
+  vendorId String       @id @unique @default(uuid())
+  email    String       @unique
+  name     String       @db.VarChar(50)
+  image    String?    
+  mobile   Int
+  gender   USER_GENDER?
+  userId   String       @unique
+  shop     Shop[]
+  user     User         @relation(fields: [userId], references: [userId])
+
+  @@map("vendor")
+}
+
+model Admin {
+  adminId String       @id @unique @default(uuid())
+  email   String       @unique
+  name    String       @db.VarChar(50)
+  image   String?  
+  address String
+  mobile  String
+  gender  USER_GENDER?
+  userId  String       @unique
+  user    User         @relation(fields: [userId], references: [userId])
+
+  @@map("admin")
+}
+
+model Shop {
+  shopId        String      @id @default(uuid())
+  name          String      @unique @db.VarChar(50)
+  location      String
+  vendorId      String
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  images        String[]
+  isBlackListed Boolean     @default(false)
+  orderitem     OrderItem[]
+  followers     Follower[]
+  products      Product[]
+  vendor        Vendor      @relation(fields: [vendorId], references: [vendorId])
+
+  @@map("shop")
+  Coupon Coupon[]
+}
+
+model Product {
+  productId   String      @id @default(uuid())
+  name        String      @db.VarChar(50)
+  price       Float
+  categoryId  String
+  images      String[]
+  description String
+  stock       Int
+  sizes       Size[]
+  shopId      String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  discounts   Int         @default(0)
+  orders      OrderItem[]
+  flashSale   FlashSale[]
+  category    Category    @relation(fields: [categoryId], references: [categoryId])
+  shop        Shop        @relation(fields: [shopId], references: [shopId])
+
+  @@map("product")
+  Review Review[]
+}
+
+model FlashSale {
+  id        String   @id @default(uuid())
+  productId String
+  discount  Int
+  startAt   DateTime
+  endAt     DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  product   Product  @relation(fields: [productId], references: [productId])
+
+  @@map("flash_sale")
+}
+
+model Category {
+  categoryId String    @id @default(uuid())
+  name       String    @unique @db.VarChar(50)
+  createdAt  DateTime  @default(now())
+  isDeleted Boolean @default(false)
+  updatedAt  DateTime  @updatedAt
+  product    Product[]
+
+  @@map("category")
+}
+
+model Follower {
+  id         String   @id @default(uuid())
+  shopId     String
+  customerId String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  customer   Customer @relation(fields: [customerId], references: [customerId])
+  shop       Shop     @relation(fields: [shopId], references: [shopId])
+
+  @@unique([shopId, customerId])
+  @@map("follower")
+}
+
+model Order {
+  id             String         @id @default(uuid())
+  customerId     String
+  total          Float
+  discounts      Float
+  subTotal       Float
+  transactionId  String?
+  couponId       String?       
+  coupon         Coupon?        @relation(fields: [couponId], references: [id])
+  couponDiscount Float?        
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  paymentStatus  PAYMENT_STATUS @default(PENDING)
+  status         ORDER_STATUS   @default(PENDING)
+  customer       Customer       @relation(fields: [customerId], references: [customerId])
+  items          OrderItem[]
+}
+model OrderItem {
+  id        String   @id @default(uuid())
+  orderId   String
+  productId String
+  size      String?
+  quantity  Int
+  price     Float
+  discount  Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  shopId    String
+  order     Order    @relation(fields: [orderId], references: [id])
+  product   Product  @relation(fields: [productId], references: [productId])
+  shop      Shop     @relation(fields: [shopId], references: [shopId])
+  Review Review[]
+}
+
+model Coupon {
+  id           String   @id @default(uuid())
+  code         String   @unique
+  discount     Float   
+  currentUses  Int      @default(0) 
+  expiresAt    DateTime?
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  shopId     String
+  shop       Shop   @relation(fields: [shopId], references: [shopId])
+  Order Order[]
+}
+
+// review table
+
+model Review {
+  reviewId             String      @id @default(uuid())
+  orderItemId    String
+  orderItem      OrderItem   @relation(fields: [orderItemId], references: [id])
+  customerId     String
+  customer        Customer     @relation(fields: [customerId], references: [customerId]) 
+  productId String
+  product Product @relation(fields: [productId],references: [productId])
+  rating         Int        
+  comment        String?    
+  vendorReply    String?     
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+}
+
+
+enum PAYMENT_STATUS {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+enum ORDER_STATUS {
+  PENDING
+  ONGOING
+  DELIVERED
+}
+
+enum USER_GENDER {
+  MALE
+  FEMALE
+}
+
+enum USER_ROLE {
+  CUSTOMER
+  ADMIN
+  VENDOR
+}
+
+enum Size {
+  S
+  M
+  L
+  XL
+  XXL
+}
