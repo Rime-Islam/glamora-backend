@@ -16,6 +16,7 @@ datasource db {
 model User {
   userId            String    @id @unique @default(uuid())
   email             String    @unique
+  name       String       @db.VarChar(50)
   password          String
   role              USER_ROLE @default(CUSTOMER)
   isDeleted         Boolean   @default(false)
@@ -54,6 +55,7 @@ model Vendor {
   name     String       @db.VarChar(50)
   image    String?    
   mobile   Int
+  address    String
   gender   USER_GENDER?
   userId   String       @unique
   shop     Shop[]
