@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { CategoryController } from "./category.controller";
-import auth from "../../middlewares/auth";
 import { USER_ROLE } from "@prisma/client";
+import auth from "../../middlewares/auth";
 
 
 const router = Router();
