@@ -100,6 +100,46 @@ const createShop = async (
     });
     return result;
   };
+
+  const followShop = async (
+    id: string,
+    user: JwtPayload & { userEmail: string; role: string }
+  ) => {
+    const userData = await prisma.customer.findUnique({
+      where: { email: user.userEmail },
+    });
+    if (!userData) {
+      throw new ApiError(404, "Shop not listed to follow list.Try again.");
+    }
+  
+    const result = await prisma.follower.create({
+      data: { customerId: userData?.customerId, shopId: id },
+    });
+  
+    return result;
+  };
+  
+  const unfollowShop = async (
+    id: string,
+    user: JwtPayload & { userEmail: string; role: string }
+  ) => {
+    const userData = await prisma.customer.findUnique({
+      where: { email: user.userEmail },
+    });
+    if (!userData) {
+      throw new ApiError(404, "Shop not listed to follow list.Try again.");
+    }
+    const result = await prisma.follower.delete({
+      where: {
+        shopId_customerId: {
+          customerId: userData.customerId,
+          shopId: id,
+        },
+      },
+    });
+  
+    return result;
+  };
   
   export const ShopService = {
     createShop,
@@ -108,4 +148,6 @@ const createShop = async (
     getAllVendorShop,
     getSingleVendorShop,
     blockShop,
+    unfollowShop,
+    followShop
   };
