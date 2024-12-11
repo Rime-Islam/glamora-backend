@@ -1,3 +1,4 @@
+import { JwtPayload } from "jsonwebtoken";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import { AuthService } from "./auth.service";
@@ -44,10 +45,50 @@ const setNewPassword = catchAsync(async (req, res) => {
     });
 });
 
+const getUserDashboard = catchAsync(async (req, res) => {
+  const userData = req.user as JwtPayload & { userEmail: string; role: string };
+  const result = await AuthService.getUserDashboard(userData);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "Dashboard data fetch successfully",
+    data: result,
+  });
+});
+
+const getAdminDashboard = catchAsync(async (req, res) => {
+  console.log("ggg");
+
+  const result = await AuthService.getAdminDashboard();
+
+  console.log(result);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "Dashboard data fetch successfully",
+    data: result,
+  });
+});
+
+const getVendorDashboard = catchAsync(async (req, res) => {
+  const userData = req.user as JwtPayload & { userEmail: string; role: string };
+  const result = await AuthService.getVendorDashboard(userData);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "Dashboard data fetch successfully",
+    data: result,
+  });
+});
+
+
 
 export const AuthController = {
     userSignin,
     forgetPassword,
     setNewPassword,
+    getUserDashboard,
+    getAdminDashboard,
+    getVendorDashboard,
 
 };
