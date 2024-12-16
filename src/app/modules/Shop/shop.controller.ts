@@ -6,7 +6,7 @@ import { ShopService } from "./shop.service";
 
 const createShop = catchAsync(async (req, res) => {
     const result = await ShopService.createShop(req.body, req.user);
-  
+  console.log(req.body)
     sendResponse(res, {
       success: true,
       statusCode: 200,

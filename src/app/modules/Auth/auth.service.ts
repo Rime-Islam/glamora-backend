@@ -8,7 +8,8 @@ import { JwtPayload, Secret } from "jsonwebtoken";
 
 
 const userSignin = async (data: { email: string; password: string }) => {
-    const user = await prisma.user.findUnique({
+  
+  const user = await prisma.user.findUnique({
       where: { email: data.email },
     });
   
@@ -33,6 +34,7 @@ const forgetPassword = async (userEmail: string) => {
     const findUser = await prisma.user.findUnique({
       where: { email: userEmail },
     });
+  
     const name = findUser?.name as string;
     const email = userEmail;
 
@@ -50,7 +52,7 @@ const forgetPassword = async (userEmail: string) => {
     const token = `${accessToken}`;
 
       const url = config.URL;
-      const URL = `${url}/reset_password?email=${userEmail}&token=${token}`;
+      const URL = `${url}/auth/reset-password?email=${userEmail}&token=${token}`;
    
     await resetPasswordEmail(email, URL, name);
   
@@ -58,23 +60,25 @@ const forgetPassword = async (userEmail: string) => {
 };
 
 const setUserNewPassword = async (token: string, password: string) => {
-    const decoded = verifyToken(token, config.jwt_secrate as Secret);
-  
-    const isUserExist = await prisma.user.findUnique({
-      where: { email: decoded.userEmail },
-    });
-  
-    if (!isUserExist) {
-      throw new ApiError(404, "User not Found");
-    }
-    const hashedPassword = await bcrypt.hash(password, Number(config.saltRounds));
-  
-    const result = await prisma.user.update({
-      where: { email: decoded.userEmail },
-      data: { password: hashedPassword },
-    });
-    return result;
-  };
+  // Use the utility to decode the token
+  const decoded = verifyToken(token);
+console.log(decoded)
+  const isUserExist = await prisma.user.findUnique({
+    where: { email: decoded.userEmail },
+  });
+
+  if (!isUserExist) {
+    throw new ApiError(404, "User not Found");
+  }
+  const hashedPassword = await bcrypt.hash(password, Number(config.saltRounds));
+
+  const result = await prisma.user.update({
+    where: { email: decoded.userEmail },
+    data: { password: hashedPassword },
+  });
+  console.log(result)
+  return result;
+};
 
   const getUserDashboard = async (
     userData: JwtPayload & { userEmail: string; role: string }

@@ -6,7 +6,7 @@ import { userService } from "./user.service";
 
 const createUser = catchAsync(async (req, res) => {
     const result = await userService.createUser(req.body);
-
+console.log(req.body)
     sendResponse(res, {
         success: true,
         statusCode: 200,

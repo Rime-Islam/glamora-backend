@@ -6,7 +6,8 @@ import { AuthService } from "./auth.service";
 
 
 const userSignin = catchAsync(async (req, res) => {
-    const result = await AuthService.userSignin(req.body);
+   
+  const result = await AuthService.userSignin(req.body);
     sendResponse(res, {
       success: true,
       statusCode: 200,
@@ -31,12 +32,12 @@ const userSignin = catchAsync(async (req, res) => {
 
 const setNewPassword = catchAsync(async (req, res) => {
     const data = req.body;
-  
+console.log(data)
     const result = await AuthService.setUserNewPassword(
       data?.token,
       data?.password
     );
-  
+  console.log("response", result)
     sendResponse(res, {
       data: result,
       statusCode: 200,

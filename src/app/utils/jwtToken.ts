@@ -1,5 +1,5 @@
 import { config } from "../configs";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt, { JwtPayload, Secret } from "jsonwebtoken";
 import ApiError from "../errors/ApiError";
 
 export const generateToken = (
@@ -12,14 +12,23 @@ export const generateToken = (
     return token;
 };
 
-export const verifyToken = (token: string, p0: jwt.Secret): JwtPayload => {
-try {
-    const decord = jwt.verify(
-        token,
-        config.jwt_secrate as string
-    ) as JwtPayload;
-    return decord;
-} catch (error) {
-    throw new ApiError(401, "Invalid/Expired token");
-}
-};
+
+export const verifyToken = (token: string): JwtPayload => {
+    try {
+      const secretKey = config.jwt_secrate as string;
+      if (!secretKey) {
+        throw new Error("JWT secret key is not defined");
+      }
+      const decoded = jwt.verify(token, secretKey, { algorithms: ['HS256'] }) as JwtPayload;
+      return decoded;
+    } catch (error: any) {
+      if (error.name === "TokenExpiredError") {
+        console.error("JWT expired at:", error.expiredAt);
+        throw new ApiError(401, "Token has expired. Please login again.");
+      }
+  
+      console.error("JWT verification error:", error.message);
+      throw new ApiError(401, "Invalid or expired token");
+    }
+  };
+      
