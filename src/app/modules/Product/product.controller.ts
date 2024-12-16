@@ -56,9 +56,10 @@ const addProduct = catchAsync(async (req, res) => {
   
   const updateProduct = catchAsync(async (req, res) => {
     const { id } = req.params;
+  
     const user = req.user as JwtPayload & { userEmail: string; role: string };
     const result = await ProductService.updateProduct(req.body, id, user);
-  
+ 
     sendResponse(res, {
       success: true,
       statusCode: 200,

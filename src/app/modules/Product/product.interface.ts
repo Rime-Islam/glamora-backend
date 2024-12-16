@@ -20,4 +20,6 @@ export interface IProduct {
     images: string[]; 
     discounts: number;
     description: string;
+    categoryId: string,
+      shopId: string,
   }

@@ -199,11 +199,15 @@ const updateProduct = async (
     where: { productId: id },
     data: {
       ...data,
+      price: Number(data.price),
+      stock: Number(data.stock),
+      discounts: Number(data.discounts),
     },
   });
 
   return result;
 };
+
 
 const deleteProduct = async (
   id: string,
