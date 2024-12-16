@@ -5,7 +5,7 @@ import { CuponService } from "./coupon.service";
 
 const createCupon = catchAsync(async (req, res) => {
     const result = await CuponService.createCupon(req.body);
-  
+ 
     sendResponse(res, {
       success: true,
       statusCode: 200,

@@ -40,7 +40,7 @@ path: "/payment",
 route: PaymentRouter
 },
 {
-path: "/coupon",
+path: "/cupon",
 route: CuponRouter
 },
 {
