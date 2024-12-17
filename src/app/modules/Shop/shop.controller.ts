@@ -85,20 +85,22 @@ const createShop = catchAsync(async (req, res) => {
       data: result,
     });
   });
-  
+
   const unfollowShop = catchAsync(async (req, res) => {
-    const { id } = req.params;
-    const user = req.user as JwtPayload & { userEmail: string; role: string };
-    const result = await ShopService.unfollowShop(id, user);
-  
-    sendResponse(res, {
-      success: true,
-      statusCode: 200,
-      message: "Shop unfollow successfull",
-      data: result,
-    });
+  const { id } = req.params;
+  console.log("folloe", id)
+  const user = req.user as JwtPayload & { userEmail: string; role: string };
+console.log("folloe", id, user)
+  const result = await ShopService.unfollowShop(id, user);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "Shop unfollow successfull",
+    data: result,
   });
-  
+});
+
   export const ShopController = {
     createShop,
     getVendorsShop,

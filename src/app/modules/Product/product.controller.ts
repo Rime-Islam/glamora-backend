@@ -31,7 +31,7 @@ const addProduct = catchAsync(async (req, res) => {
     const paginationData = pickField(req.query, ["page", "limit", "sort"]);
   
     const filter = pickField(req.query, ["searchTerm", "categoryId"]);
-    const result = await ProductService.getAllProduct(paginationData, filter);
+    const result = await ProductService.allProduct(paginationData, filter);
   
     sendResponse(res, {
       success: true,
@@ -44,7 +44,7 @@ const addProduct = catchAsync(async (req, res) => {
   
   const singleProduct = catchAsync(async (req, res) => {
     const { id } = req.params;
-    const result = await ProductService.getSingleProduct(id);
+    const result = await ProductService.singleProduct(id);
   
     sendResponse(res, {
       success: true,

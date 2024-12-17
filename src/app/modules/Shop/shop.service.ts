@@ -102,11 +102,64 @@ const blockShop = async (id: string) => {
   return result;
 };
 
+const followShop = async (
+  id: string,
+  user: JwtPayload & { userEmail: string; role: string }
+) => {
+  const userData = await prisma.customer.findUnique({
+    where: { email: user.userEmail },
+  });
+  if (!userData) {
+    throw new ApiError(404, "Shop not listed to follow list.Try again.");
+  }
+
+  const result = await prisma.follower.create({
+    data: { customerId: userData?.customerId, shopId: id },
+  });
+
+  return result;
+};
+
+
+const unfollowShop = async (
+  id: string,
+  user: JwtPayload & { userEmail: string; role: string }
+) => {
+  // Step 1: Find the user by email
+  const userData = await prisma.customer.findUnique({
+    where: { email: user.userEmail },
+    select: { customerId: true }, // Fetch only the required field
+  });
+
+  if (!userData) {
+    throw new ApiError(404, "User not found. Unable to unfollow the shop.");
+  }
+
+  // Step 2: Attempt to delete the follower record
+  try {
+    const result = await prisma.follower.delete({
+      where: {
+        shopId_customerId: {
+          customerId: userData.customerId,
+          shopId: id,
+        },
+      },
+    });
+    return result;
+  } catch (error) {
+    throw new ApiError(404, "Shop is not in the follow list or already unfollowed.");
+  }
+};
+
+
+
 export const ShopService = {
   createShop,
   getVendorShop,
   getVendorSingleShop,
   getAllVendorShop,
   getSingleVendorShop,
+  followShop,
+  unfollowShop,
   blockShop,
 };
