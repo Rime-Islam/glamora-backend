@@ -17,8 +17,7 @@ const auth = (...roles: string[]) => {
           throw new ApiError(401, "You are not authorized!");
         }
         const verifiedUser = verifyToken(
-          token,
-          config.jwt_secrate as Secret
+          token
         );
         req.user = verifiedUser;
   

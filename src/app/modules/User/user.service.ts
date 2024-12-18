@@ -179,6 +179,22 @@ const deleteUser = async (id: string) => {
     return result;
   };
 
+  const setUserNewPassword = async (userEmail: string, password: string) => {
+    const isUserExist = await prisma.user.findUnique({
+      where: { email: userEmail },
+    });
+  
+    if (!isUserExist) {
+      throw new ApiError(404, "User not Found");
+    }
+    const hashedPassword = await bcrypt.hash(password, Number(config.saltRounds));
+  
+    const result = await prisma.user.update({
+      where: { email: userEmail },
+      data: { password: hashedPassword },
+    });
+    return result;
+  };
 
 export const userService = {
  createUser,
@@ -186,5 +202,5 @@ export const userService = {
  userBlocked,
  deleteUser,
  getSingleUser,
-
+ setUserNewPassword
 };

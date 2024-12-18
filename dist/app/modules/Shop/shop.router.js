@@ -1,0 +1,20 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ShopRouter = void 0;
+const express_1 = require("express");
+const shop_controller_1 = require("./shop.controller");
+const client_1 = require("@prisma/client");
+const auth_1 = __importDefault(require("../../middlewares/auth"));
+const router = (0, express_1.Router)();
+router.post("/create-shop", (0, auth_1.default)(client_1.USER_ROLE.VENDOR), shop_controller_1.ShopController.createShop);
+router.get("/", (0, auth_1.default)(client_1.USER_ROLE.VENDOR), shop_controller_1.ShopController.getVendorsShop);
+router.get("/get-all-shop", shop_controller_1.ShopController.getAllVendorShop);
+router.get("/get-single-shop/:id", shop_controller_1.ShopController.getSingleVendorShop);
+router.get("/:id", (0, auth_1.default)(client_1.USER_ROLE.VENDOR), shop_controller_1.ShopController.getVendorsSingleShop);
+router.post("/new-follow/:id", (0, auth_1.default)(client_1.USER_ROLE.CUSTOMER), shop_controller_1.ShopController.followShop);
+router.delete("/remove-follow/:id", (0, auth_1.default)(client_1.USER_ROLE.CUSTOMER), shop_controller_1.ShopController.unfollowShop);
+router.patch("/block-shop/:id", (0, auth_1.default)(client_1.USER_ROLE.ADMIN), shop_controller_1.ShopController.blockShop);
+exports.ShopRouter = router;

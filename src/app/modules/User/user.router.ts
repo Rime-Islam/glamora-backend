@@ -12,6 +12,7 @@ router.patch(
     auth(USER_ROLE.ADMIN),
     UserController.blockedUser
   );
+  router.patch("/update-password", auth(USER_ROLE.ADMIN, USER_ROLE.VENDOR, USER_ROLE.CUSTOMER), UserController.setNewPassword);
   router.patch(
     "/delete/:id",
     auth(USER_ROLE.ADMIN),

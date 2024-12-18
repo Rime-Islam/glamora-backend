@@ -50,10 +50,27 @@ const deleteUser = catchAsync(async (req, res) => {
     });
 });
 
+const setNewPassword = catchAsync(async (req, res) => {
+    const data = req.body;
+    const userData = req.user;
+
+    const result = await userService.setUserNewPassword(
+        userData?.userEmail,
+      data?.password
+    );
+ 
+    sendResponse(res, {
+      data: result,
+      statusCode: 200,
+      success: true,
+      message: "Password reset Successfully",
+    });
+  });
 
 export const UserController = {
     createUser,
     getAllUsers,
     blockedUser,
     deleteUser,
+    setNewPassword,
 };
