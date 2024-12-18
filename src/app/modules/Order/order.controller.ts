@@ -10,7 +10,6 @@ const orderProduct = catchAsync(async (req, res) => {
     req.user as JwtPayload & { role: string; userEmail: string }
   );
 
-  console.log(result, "gggg");
   sendResponse(res, {
     data: result,
     statusCode: 200,
@@ -18,6 +17,8 @@ const orderProduct = catchAsync(async (req, res) => {
     message: "Order placed successfully",
   });
 });
+
+
 const getSingleCustomerAllOrder = catchAsync(async (req, res) => {
   const paginationData = pickField(req.query, ["page", "limit", "sort"]);
   const filter = pickField(req.query, ["status"]);

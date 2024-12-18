@@ -44,7 +44,6 @@ export const paymentConfirm = catchAsync(async (req, res): Promise<void> => {
       <style>
         body {
           font-family: Arial, sans-serif;
-          background-color: #f9f9f9;
           color: #333;
           margin: 0;
           padding: 0;
@@ -54,8 +53,6 @@ export const paymentConfirm = catchAsync(async (req, res): Promise<void> => {
           margin: 30px auto;
           padding: 20px;
           background-color: #fff;
-          border-radius: 8px;
-          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
         h1, h2, h3 {
           color: #333;
@@ -70,10 +67,7 @@ export const paymentConfirm = catchAsync(async (req, res): Promise<void> => {
           padding: 10px;
           border: 1px solid #ddd;
         }
-        th {
-          background-color: #333;
-          color: #fff;
-        }
+       
         .order-summary {
           margin-top: 20px;
           padding: 10px;
@@ -93,6 +87,10 @@ export const paymentConfirm = catchAsync(async (req, res): Promise<void> => {
           width: 80px;
           height: 80px;
           object-fit: cover;
+        }
+        .back-to-home {
+         text-align: center;
+         margin-top: 8px;
         }
       </style>
     </head>
@@ -174,7 +172,7 @@ export const paymentConfirm = catchAsync(async (req, res): Promise<void> => {
           <p><strong>Subtotal:</strong> $${orderData.subTotal}</p>
         </div>
          <div class="back-to-home">
-          <a href="https://nextmart-blue.vercel.app">Back to Home</a>
+          <a href="http://localhost:3000">Back to Home</a>
         </div>
       </div>
     </body>

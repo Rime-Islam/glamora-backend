@@ -12,16 +12,42 @@ const createOrderIntoDB = async (
   orderInfo: IOrderRequest,
   userData: JwtPayload & { role: string; userEmail: string }
 ) => {
+  // Fetch customer data using the user's email
   const customerData = await prisma.customer.findUnique({
     where: { email: userData.userEmail },
   });
 
   if (!customerData) {
-    throw new ApiError(404, "Faild payment");
+    throw new ApiError(404, "Customer not found for payment");
   }
 
-  const txn = uuidv4();
+  // Fetch blacklisted shops
+  const blacklistedShops = await prisma.shop.findMany({
+    where: { isBlackListed: true },
+    select: { shopId: true }, // Only retrieve shop IDs
+  });
 
+  const blacklistedShopIds = blacklistedShops.map((shop) => shop.shopId);
+
+  // Check if any shop in the order items is blacklisted
+  const blacklistedInOrder = orderInfo.items.find((item) =>
+    blacklistedShopIds.includes(item.shopId)
+  );
+
+  if (blacklistedInOrder) {
+    throw new ApiError(
+      400,
+      `Order cannot be placed as shop ${blacklistedInOrder.shopId} is blacklisted.`
+    );
+  }
+
+  const generateTransactionId = () => {
+    const timestamp = Date.now(); // Current timestamp
+    const randomNum = Math.floor(Math.random() * 100000); // Random number
+    return `TXN-${timestamp}-${randomNum}`; // Concatenate to create a unique ID
+  };
+
+  // Create the order in the database
   const orderData = await prisma.order.create({
     data: {
       couponId: orderInfo.couponId,
@@ -29,7 +55,7 @@ const createOrderIntoDB = async (
       total: orderInfo.total,
       discounts: orderInfo.discounts,
       customerId: customerData.customerId,
-      transactionId: txn,
+      transactionId: generateTransactionId(),
       paymentStatus: "PENDING",
       items: {
         create: orderInfo.items.map((item) => ({
@@ -44,9 +70,10 @@ const createOrderIntoDB = async (
     },
   });
 
+  // Initiate payment process
   const paymentInfo = await initiatePayment({
     orderData: orderData.subTotal,
-    txn,
+    txn: orderData.transactionId,
     customerData,
     orderId: orderData.id,
   });
