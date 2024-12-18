@@ -24,14 +24,14 @@ router.get(
   OrderController.getPendingOrder
 );
 router.get(
-  "/shop-order/:id",
+  "/shop-order",
   auth(USER_ROLE.VENDOR),
   OrderController.getSpeceficShopOrder
 );
 
 router.post("/make-payment", auth(USER_ROLE.CUSTOMER), OrderController.orderProduct);
 
-// Admin and Superadmin Routes
+// Admin Routes
 router.get(
   "/all-orders",
   auth(USER_ROLE.ADMIN),

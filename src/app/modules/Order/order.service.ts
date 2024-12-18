@@ -205,17 +205,15 @@ const getPendingOrder = async (paginationData: IPaginationOptions) => {
 };
 
 const updateOrder = async (id: string) => {
-  // Fetch the current order status
   const order = await prisma.order.findUnique({ where: { id } });
   if (!order) {
     throw new Error(`Order with ID ${id} not found`);
   }
 
-  // Define the status transition sequence
   const statusSequence: Record<string, string> = {
     PENDING: "ONGOING",
     ONGOING: "DELIVERED",
-    DELIVERED: "DELIVERED", // No further transitions from 'delivered'
+    DELIVERED: "DELIVERED", 
   };
   // Get the next status based on the current status
   const currentStatus = order.status;
@@ -315,6 +313,4 @@ export const OrderService = {
   getSpecificShopOrder,
 };
 
-function uuidv4() {
-  throw new Error("Function not implemented.");
-}
+
