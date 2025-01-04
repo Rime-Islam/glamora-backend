@@ -17,10 +17,10 @@ const corsOptions = {
 };
 app.use((0, cors_1.default)(corsOptions));
 app.use(express_1.default.json());
-app.use("/api", routes_1.default);
 app.get('/', (req, res) => {
     res.send('Hello Wrold');
 });
+app.use("/api", routes_1.default);
+exports.default = app;
 app.use(globalErrorHandler_1.default);
 app.use(notFound_1.default);
-exports.default = app;

@@ -16,14 +16,16 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-app.use("/api", router);
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello Wrold')
   });
 
+  app.use("/api", router);
+  export default app;
+  
 app.use(errorHandler);
 app.use(notFound);
   
-export default app;
+
 

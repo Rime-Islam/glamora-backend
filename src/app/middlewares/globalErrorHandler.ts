@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
+import { Prisma } from "@prisma/client";
 import ApiError from "../errors/ApiError";
-import { PrismaClientKnownRequestError, PrismaClientValidationError } from "@prisma/client/runtime/library";
 
 
 const errorHandler = (
@@ -9,8 +9,8 @@ const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  let statusCode = 500;
-  let message = "Something went wrong"; 
+  let statusCode = 500; 
+  let message = "Something went wrong";
   let errorDetails = err; 
 
   if (err instanceof ApiError) {
@@ -18,7 +18,7 @@ const errorHandler = (
     statusCode = err.statusCode;
     message = err.message;
     errorDetails = err;
-  } else if (err instanceof PrismaClientKnownRequestError) {
+  } else if (err instanceof Prisma.PrismaClientKnownRequestError) {
     // Handle known Prisma errors
     statusCode = 400;
     if (err.code === "P2002") {
@@ -37,7 +37,7 @@ const errorHandler = (
       code: err.code,
       meta: err.meta,
     };
-  } else if (err instanceof PrismaClientValidationError) {
+  } else if (err instanceof Prisma.PrismaClientValidationError) {
     // Handle Prisma validation errors
     statusCode = 400;
     message = "Validation error occurred. Check your input.";
@@ -48,8 +48,8 @@ const errorHandler = (
       errorDetails = { stack: err.stack };
     }
   }
+  console.log(err);
 
-  // Send response in desired structure
   res.status(statusCode).json({
     success: false,
     statusCode,

@@ -51,6 +51,17 @@ const createUser = async(data: IUser) => {
                 },
             });
         }
+        if (accountType === "ADMIN") {
+            await prisma.admin.create({
+                data: {
+                    email: user.email,
+                    name,
+                    mobile: Number(mobile),
+                    address,
+                    userId: user.userId,
+                },
+            });
+        }
 
         await prisma.user.findUnique({
             where: { email: user.email },

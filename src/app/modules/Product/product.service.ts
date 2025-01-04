@@ -6,6 +6,7 @@ import { IPaginationOptions } from "../../interface/pagination.interface";
 import { paginationHelper } from "../../utils/paginationHelper";
 import ApiError from "../../errors/ApiError";
 
+
 const addProduct = async (data: IProduct) => {
   const shopInfo = await prisma.shop.findUnique({
     where: { shopId: data.shopId },
@@ -211,7 +212,6 @@ const updateProduct = async (
   return result;
 };
 
-
 const deleteProduct = async (
   id: string,
   user: JwtPayload & { userEmail: string; role: string }
@@ -272,6 +272,35 @@ const flashProduct = async () => {
   }
 };
 
+const searchProduct = async (text: string) => {
+  if (!text.trim()) {
+    console.log("Search text is empty.");
+    return []; 
+  }
+
+  console.log(text, "ds");
+  const product = await prisma.product.findMany({
+    where: {
+      OR: [
+        {
+          name: {
+            contains: text,
+            mode: "insensitive",
+          },
+        },
+        {
+          description: {
+            contains: text,
+            mode: "insensitive",
+          },
+        },
+      ],
+    },
+  });
+  console.log(product);
+  return product;
+};
+
 export const ProductService = {
   addProduct,
   updateProduct,
@@ -280,4 +309,5 @@ export const ProductService = {
   singleProduct,
   flashProduct,
   cloneProduct,
+  searchProduct,
 };

@@ -4,6 +4,6 @@ interface IUser {
     address: string;
     mobile: number;
     password: string;
-    accountType: "CUSTOMER" | "VENDOR";  
+    accountType: "CUSTOMER" | "VENDOR" | "ADMIN";  
 }
 

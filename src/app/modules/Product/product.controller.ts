@@ -90,6 +90,18 @@ const addProduct = catchAsync(async (req, res) => {
       data: result,
     });
   });
+
+  const searchProduct = catchAsync(async (req, res) => {
+    const filter = req.query.searchTerm || "";
+    const result = await ProductService.searchProduct(filter as string);
+  
+    sendResponse(res, {
+      success: true,
+      statusCode: 200,
+      message: "Search Product are fetched Successfully",
+      data: result,
+    });
+  });
   
   export const ProductController = {
     addProduct,
@@ -99,4 +111,5 @@ const addProduct = catchAsync(async (req, res) => {
     singleProduct,
     flashProduct,
     cloneProduct,
+    searchProduct
   };

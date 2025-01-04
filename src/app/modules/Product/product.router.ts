@@ -11,7 +11,7 @@ router.post("/clone-product", auth(USER_ROLE.VENDOR), ProductController.clonePro
 router.get("/", ProductController.allProduct);
 router.post("/flash-sale", ProductController.flashProduct);
 router.get("/:id", ProductController.singleProduct);
-
+router.get("/search", ProductController.searchProduct);
 router.patch("/:id", auth(USER_ROLE.VENDOR), ProductController.updateProduct);
 router.delete("/:id", auth(USER_ROLE.VENDOR), ProductController.deleteProduct);
 

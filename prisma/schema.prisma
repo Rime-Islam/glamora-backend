@@ -70,7 +70,7 @@ model Admin {
   name    String       @db.VarChar(50)
   image   String?  
   address String
-  mobile  String
+  mobile  Int
   gender  USER_GENDER?
   userId  String       @unique
   user    User         @relation(fields: [userId], references: [userId])

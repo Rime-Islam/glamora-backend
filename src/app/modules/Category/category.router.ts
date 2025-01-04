@@ -7,7 +7,6 @@ import auth from "../../middlewares/auth";
 const router = Router();
 router.post(
   "/create-category",
-  auth(USER_ROLE.ADMIN),
   CategoryController.createCategory
 );
 
