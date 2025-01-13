@@ -37,7 +37,7 @@ console.log(data)
       data?.token,
       data?.password
     );
-  console.log("response", result)
+
     sendResponse(res, {
       data: result,
       statusCode: 200,
@@ -58,9 +58,9 @@ const getUserDashboard = catchAsync(async (req, res) => {
 });
 
 const getAdminDashboard = catchAsync(async (req, res) => {
-  console.log("ggg");
 
-  const result = await AuthService.getAdminDashboard();
+  const userData = req.user as JwtPayload & { userEmail: string; role: string };
+  const result = await AuthService.getAdminDashboard(userData);
 
   console.log(result);
   sendResponse(res, {

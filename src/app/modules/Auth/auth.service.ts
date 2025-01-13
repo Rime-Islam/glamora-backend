@@ -102,7 +102,11 @@ console.log(decoded)
             status: true,
           },
         },
+        image: true,
         followers: true,
+        address: true,
+        gender: true,    
+        mobile: true, 
         Review: true,
       },
     });
@@ -135,6 +139,7 @@ console.log(decoded)
     const totalReviews = customer.Review.length;
   
     return {
+      customer,
       totalOrders,
       totalSpent,
       totalDiscounts,
@@ -155,6 +160,10 @@ console.log(decoded)
       },
       select: {
         vendorId: true,
+        image: true,
+        address: true,
+        gender: true,    
+        mobile: true, 
       },
     });
   
@@ -216,6 +225,7 @@ console.log(decoded)
       ]);
   
     return {
+      vendor,
       totalShops,
       totalProducts,
       totalCompletedOrders,
@@ -223,8 +233,23 @@ console.log(decoded)
     };
   };
   
-  const getAdminDashboard = async () => {
+  const getAdminDashboard = async (
+    userData: JwtPayload & { userEmail: string; role: string }
+  )  => {
     try {
+       // First, get vendor details (vendorId) based on email
+    const admin = await prisma.admin.findUnique({
+      where: {
+        email: userData.userEmail,
+      },
+      select: {
+        adminId: true,
+        image: true,
+        address: true,
+        gender: true,    
+        mobile: true, 
+      },
+    });
       // Fetch delivered orders and total earnings
       const deliveredOrders = await prisma.order.findMany({
         where: {
@@ -256,6 +281,7 @@ console.log(decoded)
   
       // Combine all the data
       return {
+        admin,
         deliveredOrders,
         totalEarnings,
         totalUsers,
