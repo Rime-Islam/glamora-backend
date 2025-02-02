@@ -64,6 +64,17 @@ const createUser = (data) => __awaiter(void 0, void 0, void 0, function* () {
                 },
             });
         }
+        if (accountType === "ADMIN") {
+            yield prisma.admin.create({
+                data: {
+                    email: user.email,
+                    name,
+                    mobile: Number(mobile),
+                    address,
+                    userId: user.userId,
+                },
+            });
+        }
         yield prisma.user.findUnique({
             where: { email: user.email },
         });

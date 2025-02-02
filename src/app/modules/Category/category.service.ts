@@ -9,8 +9,15 @@ const createCategory = async (data: { name: string }) => {
   
   const getAllCategory = async () => {
     const result = await prisma.category.findMany({
-      where: {
-        isDeleted: false,
+      where: { isDeleted: false },
+      select: {
+        name: true, 
+        categoryId: true,
+        product: {
+          select: {
+            productId: true,
+          },
+        },
       },
     });
     return result;

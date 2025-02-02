@@ -9,7 +9,7 @@ const category_controller_1 = require("./category.controller");
 const client_1 = require("@prisma/client");
 const auth_1 = __importDefault(require("../../middlewares/auth"));
 const router = (0, express_1.Router)();
-router.post("/create-category", (0, auth_1.default)(client_1.USER_ROLE.ADMIN), category_controller_1.CategoryController.createCategory);
+router.post("/create-category", category_controller_1.CategoryController.createCategory);
 router.get("/", category_controller_1.CategoryController.getAllCategory);
 router.patch("/:id", (0, auth_1.default)(client_1.USER_ROLE.ADMIN), category_controller_1.CategoryController.updateCategory);
 router.delete("/:id", (0, auth_1.default)(client_1.USER_ROLE.ADMIN), category_controller_1.CategoryController.deleteCategory);

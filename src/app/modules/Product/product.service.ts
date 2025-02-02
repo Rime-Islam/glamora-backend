@@ -11,17 +11,18 @@ const addProduct = async (data: IProduct) => {
   const shopInfo = await prisma.shop.findUnique({
     where: { shopId: data.shopId },
   });
-
+console.log(shopInfo)
   if (shopInfo?.isBlackListed) {
     throw new ApiError(500, "Shop is blacklisted");
   }
-
+console.log(data)
   const result = await prisma.product.create({
     data: {
       ...data,
       price: Number(data.price),
       stock: Number(data.stock),
       discounts: Number(data.discounts),
+      categoryId: data.categoryId,
     },
   });
 
@@ -278,7 +279,6 @@ const searchProduct = async (text: string) => {
     return []; 
   }
 
-  console.log(text, "ds");
   const product = await prisma.product.findMany({
     where: {
       OR: [

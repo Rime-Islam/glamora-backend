@@ -3,8 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const client_1 = require("@prisma/client");
 const ApiError_1 = __importDefault(require("../errors/ApiError"));
-const library_1 = require("@prisma/client/runtime/library");
 const errorHandler = (err, req, res, next) => {
     var _a, _b;
     let statusCode = 500;
@@ -16,7 +16,7 @@ const errorHandler = (err, req, res, next) => {
         message = err.message;
         errorDetails = err;
     }
-    else if (err instanceof library_1.PrismaClientKnownRequestError) {
+    else if (err instanceof client_1.Prisma.PrismaClientKnownRequestError) {
         // Handle known Prisma errors
         statusCode = 400;
         if (err.code === "P2002") {
@@ -38,7 +38,7 @@ const errorHandler = (err, req, res, next) => {
             meta: err.meta,
         };
     }
-    else if (err instanceof library_1.PrismaClientValidationError) {
+    else if (err instanceof client_1.Prisma.PrismaClientValidationError) {
         // Handle Prisma validation errors
         statusCode = 400;
         message = "Validation error occurred. Check your input.";
@@ -50,7 +50,7 @@ const errorHandler = (err, req, res, next) => {
             errorDetails = { stack: err.stack };
         }
     }
-    // Send response in desired structure
+    console.log(err);
     res.status(statusCode).json({
         success: false,
         statusCode,

@@ -88,6 +88,16 @@ const flashProduct = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
         data: result,
     });
 }));
+const searchProduct = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const filter = req.query.searchTerm || "";
+    const result = yield product_service_1.ProductService.searchProduct(filter);
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: 200,
+        message: "Search Product are fetched Successfully",
+        data: result,
+    });
+}));
 exports.ProductController = {
     addProduct,
     updateProduct,
@@ -96,4 +106,5 @@ exports.ProductController = {
     singleProduct,
     flashProduct,
     cloneProduct,
+    searchProduct
 };

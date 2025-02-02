@@ -89,7 +89,11 @@ const getUserDashboard = (userData) => __awaiter(void 0, void 0, void 0, functio
                     status: true,
                 },
             },
+            image: true,
             followers: true,
+            address: true,
+            gender: true,
+            mobile: true,
             Review: true,
         },
     });
@@ -110,6 +114,7 @@ const getUserDashboard = (userData) => __awaiter(void 0, void 0, void 0, functio
     const totalFollowers = customer.followers.length;
     const totalReviews = customer.Review.length;
     return {
+        customer,
         totalOrders,
         totalSpent,
         totalDiscounts,
@@ -127,6 +132,10 @@ const getVendorDashboard = (userData) => __awaiter(void 0, void 0, void 0, funct
         },
         select: {
             vendorId: true,
+            image: true,
+            address: true,
+            gender: true,
+            mobile: true,
         },
     });
     if (!vendor) {
@@ -181,14 +190,28 @@ const getVendorDashboard = (userData) => __awaiter(void 0, void 0, void 0, funct
         }),
     ]);
     return {
+        vendor,
         totalShops,
         totalProducts,
         totalCompletedOrders,
         totalEarnings: totalEarnings._sum.subTotal || 0, // Fallback if no earnings
     };
 });
-const getAdminDashboard = () => __awaiter(void 0, void 0, void 0, function* () {
+const getAdminDashboard = (userData) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // First, get vendor details (vendorId) based on email
+        const admin = yield prisma_1.default.admin.findUnique({
+            where: {
+                email: userData.userEmail,
+            },
+            select: {
+                adminId: true,
+                image: true,
+                address: true,
+                gender: true,
+                mobile: true,
+            },
+        });
         // Fetch delivered orders and total earnings
         const deliveredOrders = yield prisma_1.default.order.findMany({
             where: {
@@ -217,6 +240,7 @@ const getAdminDashboard = () => __awaiter(void 0, void 0, void 0, function* () {
         const totalReviews = yield prisma_1.default.review.count();
         // Combine all the data
         return {
+            admin,
             deliveredOrders,
             totalEarnings,
             totalUsers,

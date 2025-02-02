@@ -7,7 +7,7 @@ export const initiatePayment = async (data: any) => {
     store_id: config.store_id,
     signature_key: config.signature_key,
     tran_id: data?.txn,
-    success_url: `http://localhost:5000/api/payment/confirmation?id=${data.orderId}`,
+    success_url: `https://glamora-server-deployment.vercel.app/api/payment/confirmation?id=${data.orderId}`,
     fail_url: "http://www.merchantdomain.com/failedpage.html",
     cancel_url: "http://www.merchantdomain.com/cancellpage.html",
     amount: data.orderData,

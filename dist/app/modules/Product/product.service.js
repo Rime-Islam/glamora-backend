@@ -219,6 +219,33 @@ const flashProduct = () => __awaiter(void 0, void 0, void 0, function* () {
         return result;
     }
 });
+const searchProduct = (text) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!text.trim()) {
+        console.log("Search text is empty.");
+        return [];
+    }
+    console.log(text, "ds");
+    const product = yield prisma_1.default.product.findMany({
+        where: {
+            OR: [
+                {
+                    name: {
+                        contains: text,
+                        mode: "insensitive",
+                    },
+                },
+                {
+                    description: {
+                        contains: text,
+                        mode: "insensitive",
+                    },
+                },
+            ],
+        },
+    });
+    console.log(product);
+    return product;
+});
 exports.ProductService = {
     addProduct,
     updateProduct,
@@ -227,4 +254,5 @@ exports.ProductService = {
     singleProduct,
     flashProduct,
     cloneProduct,
+    searchProduct,
 };

@@ -102,6 +102,8 @@ console.log(decoded)
             status: true,
           },
         },
+        name: true,
+        email: true,
         image: true,
         followers: true,
         address: true,
@@ -161,6 +163,8 @@ console.log(decoded)
       select: {
         vendorId: true,
         image: true,
+        name: true,
+        email: true,
         address: true,
         gender: true,    
         mobile: true, 
@@ -245,6 +249,8 @@ console.log(decoded)
       select: {
         adminId: true,
         image: true,
+        name: true,
+        email: true,
         address: true,
         gender: true,    
         mobile: true, 

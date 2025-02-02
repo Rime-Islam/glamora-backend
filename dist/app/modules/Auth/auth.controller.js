@@ -39,7 +39,6 @@ const setNewPassword = (0, catchAsync_1.default)((req, res) => __awaiter(void 0,
     const data = req.body;
     console.log(data);
     const result = yield auth_service_1.AuthService.setUserNewPassword(data === null || data === void 0 ? void 0 : data.token, data === null || data === void 0 ? void 0 : data.password);
-    console.log("response", result);
     (0, sendResponse_1.default)(res, {
         data: result,
         statusCode: 200,
@@ -58,8 +57,8 @@ const getUserDashboard = (0, catchAsync_1.default)((req, res) => __awaiter(void 
     });
 }));
 const getAdminDashboard = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("ggg");
-    const result = yield auth_service_1.AuthService.getAdminDashboard();
+    const userData = req.user;
+    const result = yield auth_service_1.AuthService.getAdminDashboard(userData);
     console.log(result);
     (0, sendResponse_1.default)(res, {
         success: true,

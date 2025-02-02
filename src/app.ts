@@ -7,8 +7,7 @@ const app: Application = express();
 
 
 const corsOptions = {
-    // origin: "https://glamora-frontend.vercel.app",
-     origin: "http://localhost:3000",
+    origin: "https://glamora-frontend.vercel.app",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
     optionsSuccessStatus: 204,
