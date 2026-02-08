@@ -9,23 +9,76 @@ The backend is built with Node.js and Express.js, using PostgreSQL with Prisma O
 # 🚀 Key Features
 ## 💳 Payment Integration
 
-Aamarpay sandbox for payments
+- Aamarpay sandbox for payments
 
-Optional SSLCommerz validation
+- Optional SSLCommerz validation
 
-Supports coupon and discount handling during checkout
+- Supports coupon and discount handling during checkout
 
 ## 🔐 Security & Authentication
 
-JWT-based authentication and authorization
+- JWT-based authentication and authorization
 
-Password hashing with bcrypt
+- Password hashing with bcrypt
 
-Role-based access control (Customer / Vendor / Admin)
+- Role-based access control (Customer / Vendor / Admin)
 
-Environment-based secure configurations
+- Environment-based secure configurations
 
-## Routes
+# Routes
+🛣️ API Routes & Descriptions
+1. User Routes (/user)
+| Method | Endpoint           | Auth Role                 | Description                              |
+| ------ | ------------------ | ------------------------- | ---------------------------------------- |
+| POST   | `/signup`          | None                      | Register a new user (Customer or Vendor) |
+| GET    | `/`                | Admin                     | Get all users                            |
+| PATCH  | `/block/:id`       | Admin                     | Block a specific user                    |
+| PATCH  | `/update-password` | Admin / Vendor / Customer | Update the logged-in user’s password     |
+| PATCH  | `/delete/:id`      | Admin                     | Delete a specific user                   |
+
+2. Auth Routes (/auth)
+| Method | Endpoint           | Auth Role | Description                        |
+| ------ | ------------------ | --------- | ---------------------------------- |
+| POST   | `/signin`          | None      | User login                         |
+| POST   | `/forget-password` | None      | Send password reset email          |
+| PATCH  | `/set-password`    | None      | Set a new password via reset token |
+| GET    | `/user`            | Customer  | Get Customer dashboard info        |
+| GET    | `/admin`           | Admin     | Get Admin dashboard info           |
+| GET    | `/vendor`          | Vendor    | Get Vendor dashboard info          |
+
+3. Category Routes (/category)
+| Method | Endpoint           | Auth Role | Description                   |
+| ------ | ------------------ | --------- | ----------------------------- |
+| POST   | `/create-category` | None      | Create a new product category |
+| GET    | `/`                | None      | Get all categories            |
+| PATCH  | `/:id`             | Admin     | Update a category             |
+| DELETE | `/:id`             | Admin     | Delete a category             |
+
+4. Shop Routes (/shop)
+| Method | Endpoint               | Auth Role | Description                           |
+| ------ | ---------------------- | --------- | ------------------------------------- |
+| POST   | `/create-shop`         | Vendor    | Create a new shop                     |
+| GET    | `/`                    | Vendor    | Get all shops of logged-in vendor     |
+| GET    | `/get-all-shop`        | None      | Get all vendor shops                  |
+| GET    | `/get-single-shop/:id` | None      | Get details of a specific shop        |
+| GET    | `/:id`                 | Vendor    | Get a single shop of logged-in vendor |
+| POST   | `/new-follow/:id`      | Customer  | Follow a vendor shop                  |
+| DELETE | `/remove-follow/:id`   | Customer  | Unfollow a vendor shop                |
+| PATCH  | `/block-shop/:id`      | Admin     | Block a vendor shop                   |
+
+5. Product Routes (/product)
+| Method | Endpoint         | Auth Role | Description                   |
+| ------ | ---------------- | --------- | ----------------------------- |
+| POST   | `/add-product`   | Vendor    | Add a new product             |
+| POST   | `/clone-product` | Vendor    | Duplicate an existing product |
+| GET    | `/`              | None      | Get all products              |
+| POST   | `/flash-sale`    | None      | Add a product to flash sale   |
+| GET    | `/:id`           | None      | Get single product details    |
+| GET    | `/search`        | None      | Search products with filters  |
+| PATCH  | `/:id`           | Vendor    | Update a product              |
+| DELETE | `/:id`           | Vendor    | Delete a product              |
+
+6. Order Routes (/order)
 | Method | Endpoint            | Auth Role                 | Description                          |
 | ------ | ------------------- | ------------------------- | ------------------------------------ |
 | GET    | `/single-order/:id` | Admin / Vendor / Customer | Get a single order details           |
@@ -35,6 +88,24 @@ Environment-based secure configurations
 | POST   | `/make-payment`     | Customer                  | Create a new order / payment         |
 | GET    | `/all-orders`       | Admin                     | Get all orders across platform       |
 | PATCH  | `/update/:id`       | Admin                     | Update order status                  |
+
+7. Payment Routes (/payment)
+| Method | Endpoint        | Auth Role | Description                        |
+| ------ | --------------- | --------- | ---------------------------------- |
+| POST   | `/confirmation` | None      | Confirm a payment after processing |
+
+8. Cupon Routes (/cupon)
+| Method | Endpoint         | Auth Role         | Description                          |
+| ------ | ---------------- | ----------------- | ------------------------------------ |
+| POST   | `/create-cupon`  | Vendor            | Create a new discount cupon for shop |
+| GET    | `/get-cupon/:id` | Vendor / Customer | Get all cupons of a specific shop    |
+
+9. Rating Routes (/rating)
+| Method | Endpoint              | Auth Role | Description                            |
+| ------ | --------------------- | --------- | -------------------------------------- |
+| POST   | `/add-rating`         | Customer  | Add a rating/review for a product      |
+| GET    | `/get-rating-by-shop` | Vendor    | Get all ratings given to vendor’s shop |
+| PATCH  | `/reply`              | Vendor    | Reply to a customer review             |
 
 
 ## 🧰 Technologies Used
