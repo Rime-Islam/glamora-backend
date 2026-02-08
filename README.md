@@ -25,28 +25,33 @@ The backend is built with Node.js and Express.js, using PostgreSQL with Prisma O
 
 - Environment-based secure configurations
 
-# Routes
+## Routes
 🛣️ API Routes & Descriptions
 1. User Routes (/user)
+
 | Method | Endpoint           | Auth Role                 | Description                              |
 | ------ | ------------------ | ------------------------- | ---------------------------------------- |
 | POST   | `/signup`          | None                      | Register a new user (Customer or Vendor) |
 | GET    | `/`                | Admin                     | Get all users                            |
 | PATCH  | `/block/:id`       | Admin                     | Block a specific user                    |
-| PATCH  | `/update-password` | Admin / Vendor / Customer | Update the logged-in user’s password     |
+| PATCH  | `/update-password` | Admin / Vendor / Customer | Update logged-in user’s password         |
 | PATCH  | `/delete/:id`      | Admin                     | Delete a specific user                   |
+                  |
 
 2. Auth Routes (/auth)
-| Method | Endpoint           | Auth Role | Description                        |
-| ------ | ------------------ | --------- | ---------------------------------- |
-| POST   | `/signin`          | None      | User login                         |
-| POST   | `/forget-password` | None      | Send password reset email          |
-| PATCH  | `/set-password`    | None      | Set a new password via reset token |
-| GET    | `/user`            | Customer  | Get Customer dashboard info        |
-| GET    | `/admin`           | Admin     | Get Admin dashboard info           |
-| GET    | `/vendor`          | Vendor    | Get Vendor dashboard info          |
+
+| Method | Endpoint           | Auth Role | Description                      |
+| ------ | ------------------ | --------- | -------------------------------- |
+| POST   | `/signin`          | None      | User login                       |
+| POST   | `/forget-password` | None      | Send password reset email        |
+| PATCH  | `/set-password`    | None      | Set new password via reset token |
+| GET    | `/user`            | Customer  | Get Customer dashboard info      |
+| GET    | `/admin`           | Admin     | Get Admin dashboard info         |
+| GET    | `/vendor`          | Vendor    | Get Vendor dashboard info        |
+
 
 3. Category Routes (/category)
+
 | Method | Endpoint           | Auth Role | Description                   |
 | ------ | ------------------ | --------- | ----------------------------- |
 | POST   | `/create-category` | None      | Create a new product category |
@@ -55,6 +60,7 @@ The backend is built with Node.js and Express.js, using PostgreSQL with Prisma O
 | DELETE | `/:id`             | Admin     | Delete a category             |
 
 4. Shop Routes (/shop)
+
 | Method | Endpoint               | Auth Role | Description                           |
 | ------ | ---------------------- | --------- | ------------------------------------- |
 | POST   | `/create-shop`         | Vendor    | Create a new shop                     |
@@ -67,6 +73,7 @@ The backend is built with Node.js and Express.js, using PostgreSQL with Prisma O
 | PATCH  | `/block-shop/:id`      | Admin     | Block a vendor shop                   |
 
 5. Product Routes (/product)
+
 | Method | Endpoint         | Auth Role | Description                   |
 | ------ | ---------------- | --------- | ----------------------------- |
 | POST   | `/add-product`   | Vendor    | Add a new product             |
@@ -79,6 +86,7 @@ The backend is built with Node.js and Express.js, using PostgreSQL with Prisma O
 | DELETE | `/:id`           | Vendor    | Delete a product              |
 
 6. Order Routes (/order)
+
 | Method | Endpoint            | Auth Role                 | Description                          |
 | ------ | ------------------- | ------------------------- | ------------------------------------ |
 | GET    | `/single-order/:id` | Admin / Vendor / Customer | Get a single order details           |
@@ -90,22 +98,26 @@ The backend is built with Node.js and Express.js, using PostgreSQL with Prisma O
 | PATCH  | `/update/:id`       | Admin                     | Update order status                  |
 
 7. Payment Routes (/payment)
+
 | Method | Endpoint        | Auth Role | Description                        |
 | ------ | --------------- | --------- | ---------------------------------- |
 | POST   | `/confirmation` | None      | Confirm a payment after processing |
 
 8. Cupon Routes (/cupon)
+
 | Method | Endpoint         | Auth Role         | Description                          |
 | ------ | ---------------- | ----------------- | ------------------------------------ |
 | POST   | `/create-cupon`  | Vendor            | Create a new discount cupon for shop |
 | GET    | `/get-cupon/:id` | Vendor / Customer | Get all cupons of a specific shop    |
 
 9. Rating Routes (/rating)
+
 | Method | Endpoint              | Auth Role | Description                            |
 | ------ | --------------------- | --------- | -------------------------------------- |
 | POST   | `/add-rating`         | Customer  | Add a rating/review for a product      |
 | GET    | `/get-rating-by-shop` | Vendor    | Get all ratings given to vendor’s shop |
 | PATCH  | `/reply`              | Vendor    | Reply to a customer review             |
+
 
 
 ## 🧰 Technologies Used
