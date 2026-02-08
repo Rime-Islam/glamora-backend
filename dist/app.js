@@ -10,10 +10,8 @@ const routes_1 = __importDefault(require("./app/routes"));
 const globalErrorHandler_1 = __importDefault(require("./app/middlewares/globalErrorHandler"));
 const app = (0, express_1.default)();
 const corsOptions = {
-    origin: "https://glamora-frontend.vercel.app",
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    origin: ["https://glamora-frontend.vercel.app"],
     credentials: true,
-    optionsSuccessStatus: 204,
 };
 app.use((0, cors_1.default)(corsOptions));
 app.use(express_1.default.json());

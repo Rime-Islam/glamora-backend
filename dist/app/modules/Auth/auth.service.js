@@ -89,6 +89,8 @@ const getUserDashboard = (userData) => __awaiter(void 0, void 0, void 0, functio
                     status: true,
                 },
             },
+            name: true,
+            email: true,
             image: true,
             followers: true,
             address: true,
@@ -133,6 +135,8 @@ const getVendorDashboard = (userData) => __awaiter(void 0, void 0, void 0, funct
         select: {
             vendorId: true,
             image: true,
+            name: true,
+            email: true,
             address: true,
             gender: true,
             mobile: true,
@@ -207,6 +211,8 @@ const getAdminDashboard = (userData) => __awaiter(void 0, void 0, void 0, functi
             select: {
                 adminId: true,
                 image: true,
+                name: true,
+                email: true,
                 address: true,
                 gender: true,
                 mobile: true,

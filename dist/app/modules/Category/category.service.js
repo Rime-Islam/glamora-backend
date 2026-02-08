@@ -20,8 +20,15 @@ const createCategory = (data) => __awaiter(void 0, void 0, void 0, function* () 
 });
 const getAllCategory = () => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield prisma_1.default.category.findMany({
-        where: {
-            isDeleted: false,
+        where: { isDeleted: false },
+        select: {
+            name: true,
+            categoryId: true,
+            product: {
+                select: {
+                    productId: true,
+                },
+            },
         },
     });
     return result;

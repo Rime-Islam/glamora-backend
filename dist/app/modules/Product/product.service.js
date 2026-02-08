@@ -31,11 +31,13 @@ const addProduct = (data) => __awaiter(void 0, void 0, void 0, function* () {
     const shopInfo = yield prisma_1.default.shop.findUnique({
         where: { shopId: data.shopId },
     });
+    console.log(shopInfo);
     if (shopInfo === null || shopInfo === void 0 ? void 0 : shopInfo.isBlackListed) {
         throw new ApiError_1.default(500, "Shop is blacklisted");
     }
+    console.log(data);
     const result = yield prisma_1.default.product.create({
-        data: Object.assign(Object.assign({}, data), { price: Number(data.price), stock: Number(data.stock), discounts: Number(data.discounts) }),
+        data: Object.assign(Object.assign({}, data), { price: Number(data.price), stock: Number(data.stock), discounts: Number(data.discounts), categoryId: data.categoryId }),
     });
     return result;
 });
@@ -224,7 +226,6 @@ const searchProduct = (text) => __awaiter(void 0, void 0, void 0, function* () {
         console.log("Search text is empty.");
         return [];
     }
-    console.log(text, "ds");
     const product = yield prisma_1.default.product.findMany({
         where: {
             OR: [

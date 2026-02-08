@@ -7,10 +7,8 @@ const app: Application = express();
 
 
 const corsOptions = {
-    origin: "https://glamora-frontend.vercel.app",
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    origin: ["https://glamora-frontend.vercel.app"],
     credentials: true,
-    optionsSuccessStatus: 204,
   };
   
 app.use(cors(corsOptions));

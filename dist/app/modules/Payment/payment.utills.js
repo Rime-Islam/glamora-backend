@@ -20,7 +20,7 @@ const initiatePayment = (data) => __awaiter(void 0, void 0, void 0, function* ()
         store_id: configs_1.config.store_id,
         signature_key: configs_1.config.signature_key,
         tran_id: data === null || data === void 0 ? void 0 : data.txn,
-        success_url: `http://localhost:5000/api/payment/confirmation?id=${data.orderId}`,
+        success_url: `https://glamora-server-deployment.vercel.app/api/payment/confirmation?id=${data.orderId}`,
         fail_url: "http://www.merchantdomain.com/failedpage.html",
         cancel_url: "http://www.merchantdomain.com/cancellpage.html",
         amount: data.orderData,
