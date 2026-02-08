@@ -11,43 +11,42 @@ import { RatingRouter } from "../modules/rating/rating.router";
 
 const router = express.Router();
 const moduleRoutes = [
-{
-path: "/user",
-route: UserRouter
-},
-{
-path: "/auth",
-route: AuthRouter
-},
-{
-path: "/category",
-route: CategoryRouter
-},
-{
-path: "/shop",
-route: ShopRouter
-},
-{
-path: "/product",
-route: ProductRouter
-},
-{
-path: "/order",
-route: OrderRouter
-},
-{
-path: "/payment",
-route: PaymentRouter
-},
-{
-path: "/cupon",
-route: CuponRouter
-},
-{
-path: "/rating",
-route: RatingRouter
-},
-
+  {
+    path: "/user",
+    route: UserRouter,
+  },
+  {
+    path: "/auth",
+    route: AuthRouter,
+  },
+  {
+    path: "/category",
+    route: CategoryRouter,
+  },
+  {
+    path: "/shop",
+    route: ShopRouter,
+  },
+  {
+    path: "/product",
+    route: ProductRouter,
+  },
+  {
+    path: "/order",
+    route: OrderRouter,
+  },
+  {
+    path: "/payment",
+    route: PaymentRouter,
+  },
+  {
+    path: "/cupon",
+    route: CuponRouter,
+  },
+  {
+    path: "/rating",
+    route: RatingRouter,
+  },
 ];
 
 moduleRoutes.forEach((route) => router.use(route.path, route.route));

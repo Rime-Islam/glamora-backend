@@ -25,6 +25,18 @@ Role-based access control (Customer / Vendor / Admin)
 
 Environment-based secure configurations
 
+## Routes
+| Method | Endpoint            | Auth Role                 | Description                          |
+| ------ | ------------------- | ------------------------- | ------------------------------------ |
+| GET    | `/single-order/:id` | Admin / Vendor / Customer | Get a single order details           |
+| GET    | `/my-order`         | Customer                  | Get all orders of logged-in customer |
+| GET    | `/pending-order`    | Admin                     | Get all pending orders               |
+| GET    | `/shop-order`       | Vendor                    | Get all orders for vendor’s shop     |
+| POST   | `/make-payment`     | Customer                  | Create a new order / payment         |
+| GET    | `/all-orders`       | Admin                     | Get all orders across platform       |
+| PATCH  | `/update/:id`       | Admin                     | Update order status                  |
+
+
 ## 🧰 Technologies Used
 - **Backend**
 
