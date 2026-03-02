@@ -7,7 +7,7 @@ import { OrderService } from "./order.service";
 const orderProduct = catchAsync(async (req, res) => {
   const result = await OrderService.createOrderIntoDB(
     req.body,
-    req.user as JwtPayload & { role: string; userEmail: string }
+    (req as any).user as JwtPayload & { role: string; userEmail: string }
   );
 
   sendResponse(res, {
@@ -23,7 +23,7 @@ const getSingleCustomerAllOrder = catchAsync(async (req, res) => {
   const paginationData = pickField(req.query, ["page", "limit", "sort"]);
   const filter = pickField(req.query, ["status"]);
   const result = await OrderService.getSingleCustomerAllOrder(
-    req.user as JwtPayload & { role: string; userEmail: string },
+    (req as any).user as JwtPayload & { role: string; userEmail: string },
     paginationData,
     filter
   );
@@ -83,7 +83,7 @@ const getPendingOrder = catchAsync(async (req, res) => {
 });
 
 const getSpeceficShopOrder = catchAsync(async (req, res) => {
-  const userData = req.user;
+  const userData = (req as any).user;
   const paginationData = pickField(req.query, ["page", "limit", "sort"]);
 
   const filter = pickField(req.query, ["status"]);

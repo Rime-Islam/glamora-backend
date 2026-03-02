@@ -5,7 +5,7 @@ import sendResponse from "../../utils/sendResponse";
 import { RatingService } from "./rating.service";
 
 const addRating = catchAsync(async (req, res) => {
-    const user = req.user as JwtPayload & { userEmail: string; role: string };
+    const user = (req as any).user as JwtPayload & { userEmail: string; role: string };
   
     const result = await RatingService.addRating(req.body.data, user);
   
@@ -18,7 +18,7 @@ const addRating = catchAsync(async (req, res) => {
   });
   
   const getUserRatingByShop = catchAsync(async (req, res) => {
-    const user = req.user as JwtPayload & { userEmail: string; role: string };
+    const user = (req as any).user as JwtPayload & { userEmail: string; role: string };
     const paginationData = pickField(req.query, ["page", "limit", "sort"]);
     const result = await RatingService.getUserReviewByShop(user, paginationData);
   

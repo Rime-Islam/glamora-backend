@@ -47,7 +47,7 @@ console.log(data)
 });
 
 const getUserDashboard = catchAsync(async (req, res) => {
-  const userData = req.user as JwtPayload & { userEmail: string; role: string };
+  const userData = (req as any).user as JwtPayload & { userEmail: string; role: string };
   const result = await AuthService.getUserDashboard(userData);
   sendResponse(res, {
     success: true,
@@ -59,7 +59,7 @@ const getUserDashboard = catchAsync(async (req, res) => {
 
 const getAdminDashboard = catchAsync(async (req, res) => {
 
-  const userData = req.user as JwtPayload & { userEmail: string; role: string };
+  const userData = (req as any).user as JwtPayload & { userEmail: string; role: string };
   const result = await AuthService.getAdminDashboard(userData);
 
   console.log(result);
@@ -72,7 +72,7 @@ const getAdminDashboard = catchAsync(async (req, res) => {
 });
 
 const getVendorDashboard = catchAsync(async (req, res) => {
-  const userData = req.user as JwtPayload & { userEmail: string; role: string };
+  const userData = (req as any).user as JwtPayload & { userEmail: string; role: string };
   const result = await AuthService.getVendorDashboard(userData);
   sendResponse(res, {
     success: true,

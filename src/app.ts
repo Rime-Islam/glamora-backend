@@ -16,8 +16,12 @@ app.use(express.json());
 
 
 app.get('/', (req: Request, res: Response) => {
-    res.send('Hello Wrold')
+    res.send('Hello Wrold wide only')
   });
+
+app.get("/health", (req, res) => {
+  res.json({ status: "ok" });
+});  
 
   app.use("/api", router);
   export default app;

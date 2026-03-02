@@ -57,7 +57,7 @@ const addProduct = catchAsync(async (req, res) => {
   const updateProduct = catchAsync(async (req, res) => {
     const { id } = req.params;
   
-    const user = req.user as JwtPayload & { userEmail: string; role: string };
+    const user = (req as any).user as JwtPayload & { userEmail: string; role: string };
     const result = await ProductService.updateProduct(req.body, id, user);
  
     sendResponse(res, {
@@ -70,7 +70,7 @@ const addProduct = catchAsync(async (req, res) => {
   
   const deleteProduct = catchAsync(async (req, res) => {
     const { id } = req.params;
-    const user = req.user as JwtPayload & { userEmail: string; role: string };
+    const user = (req as any).user as JwtPayload & { userEmail: string; role: string };
     const result = await ProductService.deleteProduct(id, user);
   
     sendResponse(res, {

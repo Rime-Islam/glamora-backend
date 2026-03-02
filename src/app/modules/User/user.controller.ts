@@ -52,7 +52,7 @@ const deleteUser = catchAsync(async (req, res) => {
 
 const setNewPassword = catchAsync(async (req, res) => {
     const data = req.body;
-    const userData = req.user;
+    const userData = (req as any).user;
 
     const result = await userService.setUserNewPassword(
         userData?.userEmail,

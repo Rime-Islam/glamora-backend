@@ -10,7 +10,7 @@ import { Secret } from "jsonwebtoken";
 
 
 
-const createUser = async(data: IUser) => {
+const createUser = async(data: any) => {
     const { address, email, password, mobile, name, accountType } = data;
 
     const hashedPassword = await bcrypt.hash(

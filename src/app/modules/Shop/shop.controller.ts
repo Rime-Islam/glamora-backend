@@ -5,7 +5,7 @@ import sendResponse from "../../utils/sendResponse";
 import { ShopService } from "./shop.service";
 
 const createShop = catchAsync(async (req, res) => {
-    const result = await ShopService.createShop(req.body, req.user);
+    const result = await ShopService.createShop(req.body, (req as any).user as JwtPayload);
   console.log(req.body)
     sendResponse(res, {
       success: true,
@@ -41,7 +41,7 @@ const createShop = catchAsync(async (req, res) => {
   
  
   const getVendorsShop = catchAsync(async (req, res) => {
-    const result = await ShopService.getVendorShop(req.user);
+    const result = await ShopService.getVendorShop((req as any).user as JwtPayload);
     sendResponse(res, {
       success: true,
       statusCode: 200,
@@ -52,7 +52,7 @@ const createShop = catchAsync(async (req, res) => {
   
   const getVendorsSingleShop = catchAsync(async (req, res) => {
     const { id } = req.params;
-    const result = await ShopService.getVendorSingleShop(req.user, id);
+    const result = await ShopService.getVendorSingleShop((req as any).user as JwtPayload, id);
   
     sendResponse(res, {
       success: true,
@@ -75,7 +75,7 @@ const createShop = catchAsync(async (req, res) => {
 
   const followShop = catchAsync(async (req, res) => {
     const { id } = req.params;
-    const user = req.user as JwtPayload & { userEmail: string; role: string };
+    const user = (req as any).user as JwtPayload & { userEmail: string; role: string };
     const result = await ShopService.followShop(id, user);
   
     sendResponse(res, {
@@ -88,7 +88,7 @@ const createShop = catchAsync(async (req, res) => {
   
   const unfollowShop = catchAsync(async (req, res) => {
     const { id } = req.params;
-    const user = req.user as JwtPayload & { userEmail: string; role: string };
+    const user = (req as any).user as JwtPayload & { userEmail: string; role: string };
     const result = await ShopService.unfollowShop(id, user);
   
     sendResponse(res, {
