@@ -8,7 +8,7 @@ import { JwtPayload, Secret } from "jsonwebtoken";
 
 
 const userSignin = async (data: { email: string; password: string }) => {
-  
+  console.log(data)
   const user = await prisma.user.findUnique({
       where: { email: data.email },
     });

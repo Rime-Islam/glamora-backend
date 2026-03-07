@@ -9,6 +9,6 @@ services:
     ports:
       - "5001:5000"
     volumes:
-      - .:/app          # Mount local code inside container
+      - .:/app          
       - /app/node_modules
     command: npx nodemon --legacy-watch src/server.ts

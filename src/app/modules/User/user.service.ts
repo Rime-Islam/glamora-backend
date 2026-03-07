@@ -13,6 +13,11 @@ import { Secret } from "jsonwebtoken";
 const createUser = async(data: any) => {
     const { address, email, password, mobile, name, accountType } = data;
 
+    const existingUser = await prisma.user.findUnique({ where: { email } });
+    if (existingUser) {
+        throw new ApiError(409, "A user with this email already exists.");
+    }
+
     const hashedPassword = await bcrypt.hash(
         password,
         Number(config.saltRounds as string)
